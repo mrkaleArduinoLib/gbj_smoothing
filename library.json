@@ -1,7 +1,7 @@
 {
-  "name": "gbj_filter_smoothing",
-  "keywords": "filtering, smoothing",
-  "description": "The library provides storing and filtering particular amount of subsequent readings in 16 bit resolution and calculates relevant statistical values from them, i.e., median, average, midle average, minimum, and maximum.",
+  "name": "gbjFilterSmoothing",
+  "keywords": "data processing, filtering, smoothing, statistics",
+  "description": "Library for smoothing 16-bit sensor data series with statistical processing. The library provides storing and filtering particular amount of subsequent readings in 16 bit resolution and calculates relevant statistical values from them, i.e., median, average, midle average, minimum, and maximum.",
   "repository": {
     "type": "git",
     "url": "https://github.com/mrkaleArduinoLib/gbj_filter_smoothing.git"
