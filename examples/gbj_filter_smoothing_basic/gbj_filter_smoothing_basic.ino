@@ -18,7 +18,7 @@
   Author: Libor Gabaj
 */
 #include "gbj_filter_smoothing.h"
-#define SKETCH "GBJ_FILTER_SMOOTHING_BASIC 1.0.0"
+#define SKETCH "GBJ_FILTER_SMOOTHING_BASIC 1.1.0"
 
 const unsigned int PERIOD_MEASURE = 3000;      // Time in milliseconds between measurements
 
@@ -35,7 +35,8 @@ void setup()
   Serial.begin(9600);
   Serial.println(SKETCH);
   Serial.println("Libraries:");
-  Serial.println(GBJ_FILTER_SMOOTHING_VERSION);
+  Serial.println(gbj_filter_smoothing::VERSION);
+  Serial.println(gbj_apphelpers::VERSION);
   Serial.println("---");
   Serial.print("Readings: ");
   Serial.println(Smoother.getBufferLen());

@@ -14,18 +14,15 @@ The library provides storing particular amount of subsequent readings (measureme
 - **WProgram.h**: Main include file for the Arduino SDK version less than 100.
 - **inttypes.h**: Integer type conversions. This header file includes the exact-width integer definitions and extends them with additional facilities provided by the implementation.
 
+#### Custom Libraries
+- **gbjAppHelpers**: Custom library loaded from the file *gbj_apphelpers.h* for a generic application logic.
+
 
 <a id="Constants"></a>
 ## Constants
-- **GBJ\_FILTER\_SMOOTHING\_VERSION**: Name and semantic version of the library.
-- **GBJ\_FILTER\_SMOOTHING\_MIN**: Minimal valid value for sensor data.
-- **GBJ\_FILTER\_SMOOTHING\_MAX**: Maximal valid value for sensor data.
-- **GBJ\_FILTER\_SMOOTHING\_BUFFER\_DEF**: Default number of readings in a run.
-- **GBJ\_FILTER\_SMOOTHING\_BUFFER\_MIN**: Minimal number of readings in a run.
-- **GBJ\_FILTER\_SMOOTHING\_BUFFER\_MAX**: Maximal number of readings in a run.
-- **GBJ\_FILTER\_SMOOTHING\_DELAY\_DEF**: Default registering delay in milliseconds.
-- **GBJ\_FILTER\_SMOOTHING\_DELAY\_MIN**: Minimal registering delay in milliseconds.
-- **GBJ\_FILTER\_SMOOTHING\_DELAY\_MAX**: Maximal registering delay in milliseconds.
+All constants are embedded into the class as static ones.
+
+- **gbj\_filter\_smoothing::VERSION**: Name and semantic version of the library.
 
 
 <a id="interface"></a>
@@ -44,12 +41,21 @@ The library provides storing particular amount of subsequent readings (measureme
 - [setFilterMax()](#setFilter)
 - [setFilter()](#setFilter)
 - [setDelay()](#setDelay)
+- [setBufferLen()](#setBufferLen)
 
 #### Getters
 - [getValueMin()](#getValueRange)
 - [getValueMax()](#getValueRange)
+- [getFilterMin()](#getFilterRange)
+- [getFilterMax()](#getFilterRange)
 - [getDelay()](#getDelay)
+- [getDelayDef()](#getDelayStatic)
+- [getDelayMin()](#getDelayStatic)
+- [getDelayMax()](#getDelayStatic)
 - [getBufferLen()](#getBufferLen)
+- [getBufferLenDef()](#getBufferLenStatic)
+- [getBufferLenMin()](#getBufferLenStatic)
+- [getBufferLenMax()](#getBufferLenStatic)
 - [getReadings()](#getReadings)
 
 
@@ -70,42 +76,47 @@ Constructor creates the data buffer within a class instance object, which holds 
 #### Parameters
 <a id="prm_valueMax"></a>
 - **valueMax**: Maximal valid sensor value for registering.
-  - *Valid values*: non-negative integer 0 ~ 65365 ([GBJ\_FILTER\_SMOOTHING\_MIN ~ GBJ\_FILTER\_SMOOTHING\_MAX](#constants))
-  - *Default value*: 65365 ([GBJ\_FILTER\_SMOOTHING\_MAX](#constants))
+  - *Valid values*: non-negative integer 0 ~ 65365
+  - *Default value*: 65365
 
 <a id="prm_valueMin"></a>
 - **valueMin**: Minimal valid sensor value for registering.
-  - *Valid values*: non-negative integer 0 ~ 65365 ([GBJ\_FILTER\_SMOOTHING\_MIN ~ GBJ\_FILTER\_SMOOTHING\_MAX](#constants))
-  - *Default value*: 0 ([GBJ\_FILTER\_SMOOTHING\_MIN](#constants))
+  - *Valid values*: non-negative integer 0 ~ 65365
+  - *Default value*: 0
 
 <a id="prm_bufferLen"></a>
 - **bufferLen**: Number of 16-bit values, which a statistical value is going to be calculated from.
   - The buffer length should be odd number. If it is not, the constructor adds 1 to it right before limiting the length in order to make it odd.
-  - *Valid values*: positive odd integer in the range 3 to 11 ([GBJ\_FILTER\_SMOOTHING\_BUFFER\_MIN ~ GBJ\_FILTER\_SMOOTHING\_BUFFER\_MAX](#constants))
-  - *Default value*: 5 ([GBJ\_FILTER\_SMOOTHING\_BUFFER\_DEF](#constants))
+  - *Valid values*: positive odd integer in the range 3 to 11
+  - *Default value*: 5
 
 <a id="prm_sensorDelay"></a>
 - **sensorDelay**: Default number of milliseconds, which the system is going to be suspended after registering each data value to the data buffer.
   - The delay enables to settle or consolidate a sensor after reading, especially its shared (multiplexed) analog-digital converter.
-  - *Valid values*: non-negative integer 0 ~ 100 ms ([GBJ\_FILTER\_SMOOTHING\_DELAY\_MIN ~ GBJ\_FILTER\_SMOOTHING\_DELAY\_MAX](#constants))
-  - *Default value*: 20 ms ([GBJ\_FILTER\_SMOOTHING\_DELAY\_DEF](#constants))
+  - *Valid values*: non-negative integer 0 ~ 100 ms
+  - *Default value*: 20 ms
 
 #### Returns
 Object preforming the smoothing data from sensors.
 
 #### Example
-The constructor has all arguments defaulted. The constructor instance without any parameters is equivalent to an instance with all arguments set by corresponding constant with default value:
+The constructor has all arguments defaulted. The constructor instance without any parameters is equivalent to an instance with all arguments set by corresponding static getters for default values:
 
 ``` cpp
 gbj_filter_smoothing Samples = gbj_filter_smoothing(); // It is equivalent to
-gbj_filter_smoothing Samples = gbj_filter_smoothing(GBJ_FILTER_SMOOTHING_MAX, GBJ_FILTER_SMOOTHING_MIN, GBJ_FILTER_SMOOTHING_BUFFER_DEF, GBJ_FILTER_SMOOTHING_DELAY_DEF);
+gbj_filter_smoothing Samples = gbj_filter_smoothing(
+  gbj_filter_smoothing::getFilterMax(), gbj_filter_smoothing::getFilterMin(),
+  gbj_filter_smoothing::getBufferLenDef(), gbj_filter_smoothing::getDelayDef());
 ```
 
-If some argument after some defaulted arguments should have a specific value, use corresponding constants in place of those defaulted arguments, e.g.
+If some argument after some defaulted arguments should have a specific value, use corresponding getter in place of those defaulted arguments, e.g.
 
 ``` cpp
-gbj_filter_smoothing Samples = gbj_filter_smoothing(GBJ_FILTER_SMOOTHING_MAX, GBJ_FILTER_SMOOTHING_MIN, 11); // Specific buffer length
-gbj_filter_smoothing Samples = gbj_filter_smoothing(GBJ_FILTER_SMOOTHING_MAX, GBJ_FILTER_SMOOTHING_MIN, GBJ_FILTER_SMOOTHING_BUFFER_DEF, 10); // Specific delay
+gbj_filter_smoothing Samples = gbj_filter_smoothing(
+  gbj_filter_smoothing::getFilterMax(), gbj_filter_smoothing::getFilterMin(), 11); // Specific buffer length
+gbj_filter_smoothing Samples = gbj_filter_smoothing(
+  gbj_filter_smoothing::getFilterMax(), gbj_filter_smoothing::getFilterMin(),
+  gbj_filter_smoothing::getBufferLenDef(), 10); // Specific delay
 ```
 
 Typical usage is just with setting a valid range in the constructor, e.g., at 10-bit ADC:
@@ -287,14 +298,14 @@ None
 
 
 <a id="setFilter"></a>
-## setFilter(), setFilterMax(), setFilterMin()
+## setFilter(), setFilterMin(), setFilterMax()
 #### Description
 The corresponding method redefines minimal, maximal, or both valid values for registered sensor data set in the constructor defined there by default or explicitly.
 
 #### Syntax
     void setFilter(uint16_t valueMax, uint16_t valueMin);
-    void setFilterMax(uint16_t valueMax);
     void setFilterMin(uint16_t valueMin);
+    void setFilterMax(uint16_t valueMax);
 
 #### Parameters
 - **valueMax**: Maximal valid sensor value for registering.
@@ -309,9 +320,9 @@ The corresponding method redefines minimal, maximal, or both valid values for re
 None
 
 #### See also
-[getValueMax()](#getValueRange)
-
 [getValueMin()](#getValueRange)
+
+[getValueMax()](#getValueRange)
 
 [gbj_filter_smoothing()](#gbj_filter_smoothing)
 
@@ -321,13 +332,13 @@ None
 
 
 <a id="getValueRange"></a>
-## getValueMax(), getValueMin()
+## getValueMin(), getValueMax()
 #### Description
 The corresponding method returns currently set minimal or maximal value valid for registering.
 
 #### Syntax
-    uint16_t getValueMax();
     uint16_t getValueMin();
+    uint16_t getValueMax();
 
 #### Parameters
 None
@@ -338,9 +349,32 @@ Actual minimal or maximal value of the valid data range.
 #### See also
 [setFilter()](#setFilter)
 
+[setFilterMin()](#setFilter)
+
 [setFilterMax()](#setFilter)
 
-[setFilterMin()](#setFilter)
+[Back to interface](#interface)
+
+
+<a id="getFilterRange"></a>
+## getFilterMin(), getFilterMax()
+#### Description
+The corresponding static method returns hardcoded limit of minimal or maximal value valid for registering.
+
+#### Syntax
+    uint16_t getFilterMin();
+    uint16_t getFilterMax();
+
+#### Parameters
+None
+
+#### Returns
+Minimal or maximal limit of the valid data range.
+
+#### See also
+[getValueMin()](#getValueRange)
+
+[getValueMax()](#getValueRange)
 
 [Back to interface](#interface)
 
@@ -392,6 +426,54 @@ Actual sensor delay in milliseconds.
 [Back to interface](#interface)
 
 
+<a id="getDelayStatic"></a>
+## getDelayDef(), getDelayMin(), getDelayMax()
+#### Description
+The corresponding static method returns hardcoded default value or valid limit of delay between registering data values for registering.
+
+#### Syntax
+    uint8_t getDelayDef();
+    uint8_t getDelayMin();
+    uint8_t getDelayMax();
+
+#### Parameters
+None
+
+#### Returns
+Default, minimal valid, or maximal valid sensor delay in milliseconds.
+
+#### See also
+[getDelay()](#getDelay)
+
+[Back to interface](#interface)
+
+
+<a id="setBufferLen"></a>
+## setBufferLen()
+#### Description
+The method redefines length of the data buffer used for registering sensor data, i.e., the number of data samples used for calculating a smoothed statistic set in the constructor and defined there by default or explicitly.
+
+#### Syntax
+    void setBufferLen(uint8_t bufferLen);
+
+#### Parameters
+- **bufferLen**: Number of 16-bit values, which a statistical value is going to be calculated from.
+  - *Valid values*: as in the constructor argument [bufferLen](#prm_bufferLen)
+  - *Default value*: as in the constructor argument [bufferLen](#prm_bufferLen)
+
+#### Returns
+None
+
+#### See also
+[getBufferLen()](#getBufferLen)
+
+[gbj_filter_smoothing()](#gbj_filter_smoothing)
+
+[register()](#register)
+
+[Back to interface](#interface)
+
+
 <a id="getBufferLen"></a>
 ## getBufferLen()
 #### Description
@@ -410,7 +492,29 @@ None
 Actual length of the data buffer.
 
 #### See also
-[gbj_filter_smoothing()](#gbj_filter_smoothing)
+[setBufferLen()](#setBufferLen)
+
+[Back to interface](#interface)
+
+
+<a id="getBufferLenStatic"></a>
+## getBufferLenDef(), getBufferLenMin(), getBufferLenMax()
+#### Description
+The corresponding static method returns hardcoded default value or valid limit of length of the data buffer used for registering sensor data.
+
+#### Syntax
+    uint8_t getBufferLenDef();
+    uint8_t getBufferLenMin();
+    uint8_t getBufferLenMax();
+
+#### Parameters
+None
+
+#### Returns
+Default, minimal, or maximal length of the data buffer.
+
+#### See also
+[getBufferLen()](#getBufferLen)
 
 [Back to interface](#interface)
 

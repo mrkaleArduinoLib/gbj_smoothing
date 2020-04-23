@@ -8,7 +8,7 @@
   - As a measured value the sketch utilizes the random integers within
     the range 0 to 1023, but registers just the values withing range 128 ~ 768
     for demostrating filtering.
-  - Random values within the valid range are marked by the asterisk.
+  - Random values within the valid range are marked with the asterisk.
   - The sketch calculates all statistics that the library provides.
 
   LICENSE:
@@ -19,9 +19,9 @@
   Author: Libor Gabaj
 */
 #include "gbj_filter_smoothing.h"
-#define SKETCH "GBJ_FILTER_SMOOTHING_FULL 1.0.0"
+#define SKETCH "GBJ_FILTER_SMOOTHING_FULL 1.1.0"
 
-const unsigned int PERIOD_MEASURE = 3000;      // Time in miliseconds between measurements
+const unsigned int PERIOD_MEASURE = 3000; // Time in miliseconds between measurements
 
 // Limits of random values for mimicking real physical measurement
 const unsigned int SENSOR_DATA_MIN = 0;
@@ -32,9 +32,11 @@ const unsigned int SENSOR_FILTER_MIN = 128;
 const unsigned int SENSOR_FILTER_MAX = 768;
 
 // Variables and constants for measurement
-const unsigned int SMOOTH_SAMPLES = 5;  // Readings for smoothing
-const byte SMOOTH_PERIOD = GBJ_FILTER_SMOOTHING_DELAY_DEF;  // Milliseconds between readings
-gbj_filter_smoothing Smoother = gbj_filter_smoothing(SENSOR_FILTER_MAX, SENSOR_FILTER_MIN, SMOOTH_SAMPLES, SMOOTH_PERIOD);
+const unsigned int SMOOTH_SAMPLES = gbj_filter_smoothing::getBufferLenDef();
+const byte SMOOTH_PERIOD = gbj_filter_smoothing::getDelayDef();
+
+gbj_filter_smoothing Smoother = gbj_filter_smoothing(
+    SENSOR_FILTER_MAX, SENSOR_FILTER_MIN, SMOOTH_SAMPLES, SMOOTH_PERIOD);
 unsigned int demoData;
 
 void setup()
@@ -42,7 +44,8 @@ void setup()
   Serial.begin(9600);
   Serial.println(SKETCH);
   Serial.println("Libraries:");
-  Serial.println(GBJ_FILTER_SMOOTHING_VERSION);
+  Serial.println(gbj_filter_smoothing::VERSION);
+  Serial.println(gbj_apphelpers::VERSION);
   Serial.println("---");
   Serial.print("Readings: ");
   Serial.println(Smoother.getBufferLen());
@@ -58,15 +61,13 @@ void loop()
   do
   {
     demoData = random(SENSOR_DATA_MIN, SENSOR_DATA_MAX + 1);
-    if (demoData >= Smoother.getValueMin() \
-    &&  demoData <= Smoother.getValueMax())
+    if (demoData >= Smoother.getValueMin() && demoData <= Smoother.getValueMax())
     {
       Serial.print("*");
     }
     Serial.print(demoData);
     Serial.print(" ");
-  }
-  while(Smoother.registerData(demoData));
+  } while (Smoother.registerData(demoData));
   Serial.print("=> ");
   Serial.print(Smoother.getMedian());
   Serial.print(" ");

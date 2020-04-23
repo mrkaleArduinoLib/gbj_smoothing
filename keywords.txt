@@ -10,30 +10,32 @@ gbj_filter_smoothing	KEYWORD1
 ##########################################
 # Methods and Functions (KEYWORD2)
 ##########################################
+getAverage	KEYWORD2
+getBufferLen	KEYWORD2
+getBufferLenDef	KEYWORD2
+getBufferLenMax	KEYWORD2
+getBufferLenMin	KEYWORD2
+getDelay	KEYWORD2
+getDelayDef	KEYWORD2
+getDelayMax	KEYWORD2
+getDelayMin	KEYWORD2
+getFilterMax	KEYWORD2
+getFilterMin	KEYWORD2
+getMaximum	KEYWORD2
+getMedian	KEYWORD2
+getMidAverage	KEYWORD2
+getMinimum	KEYWORD2
+getReadings	KEYWORD2
+getValueMax	KEYWORD2
+getValueMin	KEYWORD2
 init	KEYWORD2
 registerData	KEYWORD2
+setBufferLen	KEYWORD2
+setDelay	KEYWORD2
 setFilter	KEYWORD2
-setFilterMin	KEYWORD2
 setFilterMax	KEYWORD2
-getMedian	KEYWORD2
-getAverage	KEYWORD2
-getMidAverage	KEYWORD2
-getMaximum	KEYWORD2
-getMinimum	KEYWORD2
-getBufferLen	KEYWORD2
-getReadings	KEYWORD2
-getValueMin	KEYWORD2
-getValueMax	KEYWORD2
+setFilterMin	KEYWORD2
 
 ##########################################
 # Constants (LITERAL1)
 ##########################################
-GBJ_FILTER_SMOOTHING_VERSION	LITERAL1
-GBJ_FILTER_SMOOTHING_MIN	LITERAL1
-GBJ_FILTER_SMOOTHING_MAX	LITERAL1
-GBJ_FILTER_SMOOTHING_BUFFER_DEF	LITERAL1
-GBJ_FILTER_SMOOTHING_BUFFER_MIN	LITERAL1
-GBJ_FILTER_SMOOTHING_BUFFER_MAX	LITERAL1
-GBJ_FILTER_SMOOTHING_DELAY_DEF	LITERAL1
-GBJ_FILTER_SMOOTHING_DELAY_MIN	LITERAL1
-GBJ_FILTER_SMOOTHING_DELAY_MAX	LITERAL1
