@@ -15,7 +15,7 @@ The library provides storing particular amount of subsequent readings (measureme
 - **inttypes.h**: Integer type conversions. This header file includes the exact-width integer definitions and extends them with additional facilities provided by the implementation.
 
 #### Custom Libraries
-- **gbjAppHelpers**: Custom library loaded from the file *gbj_apphelpers.h* for a generic application logic.
+- **gbjAppHelpers**: Custom library loaded from the file *gbj\_apphelpers.h* for a generic application logic.
 
 
 <a id="Constants"></a>
@@ -37,9 +37,9 @@ All constants are embedded into the class as static ones.
 - [getMinimum()](#getMinimum)
 
 #### Setters
+- [setFilter()](#setFilter)
 - [setFilterMin()](#setFilter)
 - [setFilterMax()](#setFilter)
-- [setFilter()](#setFilter)
 - [setDelay()](#setDelay)
 - [setBufferLen()](#setBufferLen)
 
