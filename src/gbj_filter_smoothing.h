@@ -213,6 +213,15 @@ class gbj_filter_smoothing
       // Adjust buffer length to odd number
       _bufferLen = bufferLen | 1;
       _bufferLen = constrain(_bufferLen, getBufferLenMin(), getBufferLenMax());
+      // Create of adjust data buffer if needed
+      if (_buffer == NULL)
+      {
+        _buffer = (uint16_t *)calloc(getBufferLen(), sizeof(uint16_t));
+      }
+      else if (getBufferLen() != sizeof(_buffer) / sizeof(_buffer[0]))
+      {
+        _buffer = (uint16_t *)realloc(_buffer, getBufferLen() * sizeof(uint16_t));
+      }
     };
 
     inline void setDelay(uint8_t sensorDelay)
@@ -233,7 +242,7 @@ class gbj_filter_smoothing
       DELAY_DEF = 20,      // Default registering delay in milliseconds
     };
 
-    uint16_t _buffer[Limits::BUFFERLEN_MAX];
+    uint16_t *_buffer = NULL; // Dynamic data buffer
     uint16_t _valueMin;
     uint16_t _valueMax;
     uint8_t _bufferLen;

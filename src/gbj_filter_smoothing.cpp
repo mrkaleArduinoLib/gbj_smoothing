@@ -9,8 +9,8 @@ gbj_filter_smoothing::gbj_filter_smoothing(
   uint8_t sensorDelay)
 {
   setFilter(valueMax, valueMin);
-  setDelay(sensorDelay);
   setBufferLen(bufferLen);
+  setDelay(sensorDelay);
   init();
 }
 
@@ -50,7 +50,7 @@ uint16_t gbj_filter_smoothing::getAverage()
   for (uint8_t i = 0; i < getReadings(); i++)
     statistic += _buffer[i];
   // Round up arithmetic mean
-  return divide(statistic, _bufferCnt);
+  return divide(statistic, getReadings());
 }
 
 
