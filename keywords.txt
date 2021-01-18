@@ -5,18 +5,18 @@
 ##########################################
 # Datatypes (KEYWORD1)
 ##########################################
-gbj_filter_smoothing	KEYWORD1
+gbj_smoothing	KEYWORD1
 
 ##########################################
 # Methods and Functions (KEYWORD2)
 ##########################################
 getAverage	KEYWORD2
 getBufferLen	KEYWORD2
-getBufferLenDef	KEYWORD2
+getBufferLenDft	KEYWORD2
 getBufferLenMax	KEYWORD2
 getBufferLenMin	KEYWORD2
 getDelay	KEYWORD2
-getDelayDef	KEYWORD2
+getDelayDft	KEYWORD2
 getDelayMax	KEYWORD2
 getDelayMin	KEYWORD2
 getFilterMax	KEYWORD2
@@ -39,3 +39,4 @@ setFilterMin	KEYWORD2
 ##########################################
 # Constants (LITERAL1)
 ##########################################
+VERSION	LITERAL1
