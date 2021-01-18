@@ -34,7 +34,7 @@ All constants are embedded into the class as static ones.
 
 <a id="interface"></a>
 ## Interface
-The methods in bold are static and can be called directly from the library without need their instantiation.
+The getters in _italic_ are static and can be called directly from the library without need their instantiation.
 
 * [gbj_smoothing()](#gbj_smoothing)
 * [init()](#init)
@@ -58,16 +58,16 @@ The methods in bold are static and can be called directly from the library witho
 
 * [getValueMin()](#getValueRange)
 * [getValueMax()](#getValueRange)
-* [**getFilterMin()**](#getFilterStatic)
-* [**getFilterMax()**](#getFilterStatic)
+* [_getFilterMin()_](#getFilterStatic)
+* [_getFilterMax()_](#getFilterStatic)
 * [getDelay()](#getDelay)
-* [**getDelayDft()**](#getDelayStatic)
-* [**getDelayMin()**](#getDelayStatic)
-* [**getDelayMax()**](#getDelayStatic)
+* [_getDelayDft()_](#getDelayStatic)
+* [_getDelayMin()_](#getDelayStatic)
+* [_getDelayMax()_](#getDelayStatic)
 * [getBufferLen()](#getBufferLen)
-* [**getBufferLenDft()**](#getBufferLenStatic)
-* [**getBufferLenMin()**](#getBufferLenStatic)
-* [**getBufferLenMax()**](#getBufferLenStatic)
+* [_getBufferLenDft()_](#getBufferLenStatic)
+* [_getBufferLenMin()_](#getBufferLenStatic)
+* [_getBufferLenMax()_](#getBufferLenStatic)
 * [getReadings()](#getReadings)
 
 
