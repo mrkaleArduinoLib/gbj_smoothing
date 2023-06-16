@@ -115,7 +115,7 @@ public:
 
     RETURN: none
   */
-  inline void init() { _bufferCnt = 0; };
+  inline void init() { bufferCnt_ = 0; };
 
   /*
     Put measured value to the buffer.
@@ -175,19 +175,19 @@ public:
   uint16_t getMinimum(); // The lowest value
 
   // Public getters
-  inline uint8_t getReadings() { return _bufferCnt; };
-  inline uint16_t getValueMin() { return _valueMin; };
-  inline uint16_t getValueMax() { return _valueMax; };
+  inline uint8_t getReadings() { return bufferCnt_; };
+  inline uint16_t getValueMin() { return valueMin_; };
+  inline uint16_t getValueMax() { return valueMax_; };
   //
   static inline uint16_t getFilterMin() { return Limits::FILTER_MIN; };
   static inline uint16_t getFilterMax() { return Limits::FILTER_MAX; };
   //
-  inline uint8_t getBufferLen() { return _bufferLen; };
+  inline uint8_t getBufferLen() { return bufferLen_; };
   static inline uint8_t getBufferLenMin() { return Limits::BUFFERLEN_MIN; };
   static inline uint8_t getBufferLenMax() { return Limits::BUFFERLEN_MAX; };
   static inline uint8_t getBufferLenDft() { return Limits::BUFFERLEN_DFT; };
   //
-  inline uint8_t getDelay() { return _sensorDelay; };
+  inline uint8_t getDelay() { return sensorDelay_; };
   static inline uint8_t getDelayMin() { return Limits::DELAY_MIN; };
   static inline uint8_t getDelayMax() { return Limits::DELAY_MAX; };
   static inline uint8_t getDelayDft() { return Limits::DELAY_DFT; };
@@ -195,12 +195,12 @@ public:
   // Public setters
   inline void setFilterMax(uint16_t valueMax)
   {
-    _valueMax = constrain(valueMax, getFilterMin(), getFilterMax());
+    valueMax_ = constrain(valueMax, getFilterMin(), getFilterMax());
   };
 
   inline void setFilterMin(uint16_t valueMin)
   {
-    _valueMin = constrain(valueMin, Limits::FILTER_MIN, Limits::FILTER_MAX);
+    valueMin_ = constrain(valueMin, Limits::FILTER_MIN, Limits::FILTER_MAX);
   };
 
   inline void setFilter(uint16_t valueMax, uint16_t valueMin)
@@ -212,22 +212,22 @@ public:
   inline void setBufferLen(uint8_t bufferLen)
   {
     // Adjust buffer length to odd number
-    _bufferLen = bufferLen | 1;
-    _bufferLen = constrain(_bufferLen, getBufferLenMin(), getBufferLenMax());
+    bufferLen_ = bufferLen | 1;
+    bufferLen_ = constrain(bufferLen_, getBufferLenMin(), getBufferLenMax());
     // Create of adjust data buffer if needed
-    if (_buffer == NULL)
+    if (buffer_ == NULL)
     {
-      _buffer = (uint16_t *)calloc(getBufferLen(), sizeof(uint16_t));
+      buffer_ = (uint16_t *)calloc(getBufferLen(), sizeof(uint16_t));
     }
-    else if (getBufferLen() != sizeof(_buffer) / sizeof(_buffer[0]))
+    else if (getBufferLen() != sizeof(buffer_) / sizeof(buffer_[0]))
     {
-      _buffer = (uint16_t *)realloc(_buffer, getBufferLen() * sizeof(uint16_t));
+      buffer_ = (uint16_t *)realloc(buffer_, getBufferLen() * sizeof(uint16_t));
     }
   };
 
   inline void setDelay(uint8_t sensorDelay)
   {
-    _sensorDelay = constrain(sensorDelay, getDelayMin(), getDelayMax());
+    sensorDelay_ = constrain(sensorDelay, getDelayMin(), getDelayMax());
   };
 
 private:
@@ -243,12 +243,12 @@ private:
     DELAY_DFT = 20, // Default registering delay in milliseconds
   };
 
-  uint16_t *_buffer = NULL; // Dynamic data buffer
-  uint16_t _valueMin;
-  uint16_t _valueMax;
-  uint8_t _bufferLen;
-  uint8_t _bufferCnt;
-  uint8_t _sensorDelay;
+  uint16_t *buffer_ = NULL; // Dynamic data buffer
+  uint16_t valueMin_;
+  uint16_t valueMax_;
+  uint8_t bufferLen_;
+  uint8_t bufferCnt_;
+  uint8_t sensorDelay_;
 };
 
 #endif
